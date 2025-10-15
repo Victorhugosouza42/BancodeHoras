@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Painel Administrativo{% endblock %}
+
+{% block content %}
+<style>
+    /* ... (Estilos existentes) ... */
+    summary {
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.5em;
+        padding: 10px;
+        border: 1px solid var(--pico-border-color);
+        border-radius: var(--pico-border-radius);
+        margin-top: 20px;
+        list-style: none;
+    }
+    
+    summary::-webkit-details-marker {
+        display: none;
+    }
+
+    details[open] > summary {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    details > table {
+        border-top: none;
+    }
+</style>
+
+<nav>
+  <ul>
+    <li><strong>Painel Administrativo</strong></li>
+  </ul>
+  <ul>
+    <li><a href="/logout" role="button" class="secondary">Sair</a></li>
+  </ul>
+</nav>
+
+<section>
+  <article class="pending-section">
+    <h2 style="margin-top: 0;">Solicitações Pendentes</h2>
+    {% if solicitacoes_pendentes %}
+    <div class="overflow-auto">
+      <table>
+          <thead><tr><th>Funcionário</th><th>Tipo</th><th>Dias</th><th>Motivo</th><th>Ações</th></tr></thead>
+          <tbody>
+              {% for s in solicitacoes_pendentes %}
+              <tr>
+                  <td>{{ s.nome_funcionario }}</td>
+                  <td>{% if s.tipo == 'ganho' %}Ganho{% else %}Gasto{% endif %}</td>
+                  <td>{{ s.dias }}</td>
+                  <td>{{ s.motivo }}</td>
+                  <td>
+                      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                          <a href="/responder_solicitacao/{{ s.id }}/aprovado" role="button" class="btn-approve">Aprovar</a>
+                          <a href="/responder_solicitacao/{{ s.id }}/recusado" role="button" class="secondary outline">Recusar</a>
+                      </div>
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>Nenhuma solicitação pendente no momento.</p>
+    {% endif %}
+  </article>
+</section>
+
+<details>
+    <summary role="button" class="outline">Visão Geral dos Funcionários</summary>
+    <div class="overflow-auto">
+      <table>
+          <thead><tr><th>ID</th><th>Nome</th><th>Saldo Atual (dias)</th><th>Ações</th></tr></thead>
+          <tbody>
+              {% for usuario in todos_usuarios %}
+              <tr>
+                  <td>{{ usuario.id }}</td>
+                  <td>{{ usuario.nome }}</td>
+                  <td>{{ usuario.saldo_atual }}</td>
+                  <td>
+                      {% if usuario.nome != 'admin' %}
+                      <a href="/editar_usuario/{{ usuario.id }}">Editar</a> |
+                      <a href="/historico_usuario/{{ usuario.id }}">Histórico</a> |
+                      <a href="/excluir_usuario/{{ usuario.id }}" style="color: var(--pico-color-red-500);">Excluir</a>
+                      {% endif %}
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+    </div>
+</details>
+
+<div class="grid">
+  <article>
+    <h2 style="margin-top:0;">Cadastrar Novo Funcionário</h2>
+    <form action="/add_usuario" method="post">
+        <label for="nome">Nome de Usuário:</label>
+        <input type="text" id="nome" name="nome" required>
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+        <button type="submit">Cadastrar</button>
+    </form>
+  </article>
+  <article>
+    <h2 style="margin-top:0;">Adicionar Transação Direta</h2>
+    <form action="/add_transacao" method="post">
+        
+        <label for="funcionario-input">Selecionar Funcionário (digite para pesquisar):</label>
+        <input type="text" id="funcionario-input" name="funcionario_selecionado" list="lista-funcionarios" required autocomplete="off">
+        <datalist id="lista-funcionarios">
+            {% for usuario in todos_usuarios %}
+                <option value="{{ usuario.nome }} (ID: {{ usuario.id }})">
+            {% endfor %}
+        </datalist>
+
+        <label for="tipo">Tipo de Transação:</label>
+        <select id="tipo" name="tipo" required><option value="ganho">Ganho de Folga</option><option value="gasto">Uso de Folga</option></select>
+        <label for="dias">Quantidade de Dias:</label>
+        <input type="number" id="dias" name="dias" min="1" required>
+        <label for="motivo">Motivo:</label>
+        <input type="text" id="motivo" name="motivo" required>
+        <button type="submit">Adicionar Transação</button>
+    </form>
+  </article>
+</div>
+{% endblock %}

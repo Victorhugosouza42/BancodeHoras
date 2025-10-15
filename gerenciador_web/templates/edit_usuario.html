@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Funcionário{% endblock %}
+
+{% block content %}
+<style>
+    .edit-container { max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+    h1 { text-align: center; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input { width: 100%; padding: 8px; box-sizing: border-box; margin-top: 5px;}
+    .hint { font-size: 0.8em; color: #666; font-weight: normal; }
+    .actions { margin-top: 20px; display: flex; justify-content: space-between; }
+    button { padding: 10px 20px; border: none; cursor: pointer; border-radius: 4px; }
+    .save-button { background-color: #28a745; color: white; }
+    .cancel-link { text-align: center; display: inline-block; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px;}
+</style>
+
+<div class="edit-container">
+    <h1>Editar Funcionário</h1>
+    
+    <form method="post">
+        <label for="nome">Nome de Usuário:</label>
+        <input type="text" id="nome" name="nome" value="{{ usuario.nome }}" required>
+        
+        <label for="nova_senha">Nova Senha:</label>
+        <span class="hint">Deixe em branco para não alterar a senha atual.</span>
+        <input type="password" id="nova_senha" name="nova_senha">
+        
+        <div class="actions">
+            <button type="submit" class="save-button">Salvar Alterações</button>
+            <a href="{{ url_for('admin_panel') }}" class="cancel-link">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

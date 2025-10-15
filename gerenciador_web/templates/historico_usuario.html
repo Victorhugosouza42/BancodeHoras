@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Histórico de {{ usuario.nome }}{% endblock %}
+
+{% block content %}
+<style>
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;}
+    h1 { color: #333; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .ganho { color: green; }
+    .gasto { color: red; }
+    .back-link { text-align: center; display: inline-block; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px;}
+</style>
+
+<div class="header">
+    <h1>Histórico de Folgas: {{ usuario.nome }}</h1>
+    <a href="{{ url_for('admin_panel') }}" class="back-link">Voltar ao Painel</a>
+</div>
+
+<h2>Saldo Atual: {{ usuario.saldo_atual }} dias</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Tipo</th>
+            <th>Dias</th>
+            <th>Motivo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in transacoes %}
+        <tr>
+            <td>{{ t.data }}</td>
+            <td class="{{ t.tipo }}">
+                {% if t.tipo == 'ganho' %}
+                    Ganho
+                {% else %}
+                    Gasto
+                {% endif %}
+            </td>
+            <td>{{ t.dias }}</td>
+            <td>{{ t.motivo }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4" style="text-align: center;">Nenhuma transação encontrada para este funcionário.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,10 @@
+Como Usar o Script num Novo Computador
+Agora, o processo para configurar a aplicação num novo PC fica incrivelmente mais simples:
+
+Pré-requisito: O novo PC precisa de ter instalado o Python manualmente, lembrando-se de marcar "Add Python to PATH".
+
+Executar: Só precisa de abrir a pasta, encontrar o ficheiro configurar.bat e dar um duplo clique nele.
+
+E é tudo! Uma janela do terminal irá abrir-se, e o script executará todos os passos automaticamente: verificará o Python, instalará o Flask, criará a base de dados pela primeira vez e, por fim, iniciará o servidor web.
+
+Para abrir o app e só clicar em App.

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Meu Extrato{% endblock %}
+
+{% block content %}
+<nav>
+  <ul>
+    <li><strong>Olá, {{ usuario.nome }}!</strong></li>
+  </ul>
+  <ul>
+    <li><a href="/logout" role="button" class="secondary">Sair</a></li>
+  </ul>
+</nav>
+
+<article>
+  <header style="text-align: center;">
+    <p>Seu saldo atual de folgas aprovadas é:</p>
+    <h1 style="margin:0; font-size: 3em;">{{ usuario.saldo_atual }} dias</h1>
+  </header>
+</article>
+
+<div class="grid">
+  <article>
+    <h3 style="margin-top:0;">Solicitar Uso de Folga</h3>
+    <form action="/solicitar_folga" method="post">
+        <input type="hidden" name="tipo" value="gasto">
+        <label for="dias_gasto">Quantidade de Dias:</label>
+        <input type="number" id="dias_gasto" name="dias" min="1" required>
+        <label for="motivo_gasto">Motivo:</label>
+        <input type="text" id="motivo_gasto" name="motivo" required>
+        <button type="submit">Enviar Solicitação</button>
+    </form>
+  </article>
+  <article>
+    <h3 style="margin-top:0;">Solicitar Ganho de Folga</h3>
+    <form action="/solicitar_folga" method="post">
+        <input type="hidden" name="tipo" value="ganho">
+        <label for="dias_ganho">Quantidade de Dias:</label>
+        <input type="number" id="dias_ganho" name="dias" min="1" required>
+        <label for="motivo_ganho">Motivo (ex: compensação dia X):</label>
+        <input type="text" id="motivo_ganho" name="motivo" required>
+        <button type="submit">Enviar Solicitação</button>
+    </form>
+  </article>
+</div>
+
+<h3>Histórico de Transações</h3>
+<div class="overflow-auto">
+  <table>
+      <thead><tr><th>Data</th><th>Tipo</th><th>Dias</th><th>Motivo</th><th>Status</th></tr></thead>
+      <tbody>
+          {% for t in transacoes %}
+          <tr>
+              <td>{{ t.data }}</td>
+              <td>{% if t.tipo == 'ganho' %}Ganho{% else %}Gasto{% endif %}</td>
+              <td>{{ t.dias }}</td>
+              <td>{{ t.motivo }}</td>
+              <td>
+                {% if t.status == 'aprovado' %}
+                <span style="color: var(--pico-color-green-500);">{{ t.status|capitalize }}</span>
+                {% elif t.status == 'recusado' %}
+                <span style="color: var(--pico-color-red-500);">{{ t.status|capitalize }}</span>
+                {% else %}
+                <span style="color: var(--pico-color-orange-500);">{{ t.status|capitalize }}</span>
+                {% endif %}
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
+{% endblock %}

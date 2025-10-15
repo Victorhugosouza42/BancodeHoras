@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+    .login-container { max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+    h1 { text-align: center; }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 8px; box-sizing: border-box; }
+    button { width: 100%; padding: 10px; margin-top: 20px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+</style>
+<div class="login-container">
+    <h1>Sistema de Gerenciamento de Folgas</h1>
+    <form method="post">
+        <label for="nome">Usuário:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+
+        <button type="submit">Entrar</button>
+    </form>
+</div>
+{% endblock %}

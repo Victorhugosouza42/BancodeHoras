@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
+    
+    <title>{% block title %}{% endblock %} - Sistema de Folgas</title>
+</head>
+<body>
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <article class="{{ 'success' if category == 'success' else 'danger' if category == 'danger' else '' }}">
+                {{ message }}
+              </article>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,55 @@
+/* static/custom.css */
+
+/* :root seleciona o elemento raiz do documento,
+   é aqui que definimos as nossas variáveis globais. */
+:root {
+  /* Altera a cor primária (botões, links, etc.) para um tom de verde */
+  --pico-primary: #1E88E5; /* Um azul mais forte */
+  --pico-primary-hover: #1565C0;
+  --pico-primary-focus: rgba(30, 136, 229, 0.25);
+
+  /* Altera a família da fonte principal da aplicação */
+  --pico-font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Altera o raio da borda dos elementos (botões, inputs, etc.) para mais arredondado */
+  --pico-border-radius: 8px;
+
+  /* Aumenta um pouco o espaçamento geral */
+  --pico-spacing: 1.25rem;
+}
+
+/* Também podemos estilizar classes específicas */
+
+/* Deixa o fundo da secção de solicitações pendentes com uma cor mais suave */
+.pending-section {
+    background-color: var(--pico-card-background-color);
+    border: 1px solid var(--pico-card-border-color);
+}
+
+/* Muda a cor do cabeçalho do painel de administração */
+nav {
+    background-color: var(--pico-primary);
+    padding: 0 var(--pico-spacing);
+}
+
+nav ul li a, nav ul li strong {
+    color: var(--pico-primary-inverse); /* Cor de texto que contrasta com a primária */
+}
+/* static/custom.css */
+
+/* ... (os estilos que já existem para :root, .pending-section, etc. ficam aqui) ... */
+
+
+/* NOVA CLASSE PARA O NOSSO BOTÃO DE APROVAÇÃO */
+.btn-approve {
+    /* Usamos 'role="button"' no HTML, então o Pico já aplica estilos base.
+       Aqui nós apenas sobrescrevemos a cor de fundo e da borda. */
+    --pico-background-color: #28a745; /* Verde sucesso */
+    --pico-border-color: #28a745;
+    color: white; /* Garante que o texto seja branco */
+}
+
+.btn-approve:hover {
+    --pico-background-color: #218838; /* Um verde um pouco mais escuro ao passar o rato */
+    --pico-border-color: #218838;
+}
